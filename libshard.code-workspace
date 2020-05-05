@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.autoIndent": "full",
+		"editor.insertSpaces": false,
+		"editor.renderWhitespace": "boundary",
+		"editor.tabSize": 8,
+		"C_Cpp.includePath": "src/include/"
+	}
+}
