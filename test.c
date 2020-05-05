@@ -10,6 +10,5 @@ int main(int argc, char **argv)
 	else
 		printf("%s\n", read_file("test.c"));
 	
-
 	return 0;
 }
