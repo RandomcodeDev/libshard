@@ -6,6 +6,8 @@ INCDIR=src/include
 HEADERDIR=$(INCDIR)/shard
 OBJDIR=obj
 BINDIR=bin
+GLO_INCDIR=/usr/include
+GLO_LIBDIR=/usr/lib
 
 _CSRC=error.c file.c
 CSRC=$(patsubst %,$(SRCDIR)/%,$(_CSRC))
@@ -29,13 +31,13 @@ clean:
 
 .PHONY: uninstall
 uninstall:
-	rm /usr/lib/libshard.so
-	rm -r /usr/include/shard
+	rm $(GLO_LIBDIR)/libshard.so
+	rm -r $(GLO_INCDIR)/shard
 	ldconfig
 
 .PHONY: install
 install: $(BINDIR)/libshard.so
 	$(MAKE) clean
-	cp $(BINDIR)/libshard.so /usr/lib/libshard.so
-	cp -r $(HEADERDIR) /usr/include/
+	cp $(BINDIR)/libshard.so $(GLO_LIBDIR)/libshard.so
+	cp -r $(HEADERDIR) $(GLO_INCDIR)/
 	ldconfig
