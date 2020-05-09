@@ -52,7 +52,6 @@ uninstall:
 	ldconfig
 
 install: $(BINDIR)/libshard.so clean
-	$(MAKE) clean
 	cp $(BINDIR)/libshard.so $(PREFIX)/lib/libshard.so
 	cp -r $(HEADERDIR)/ $(PREFIX)/include/
 	ldconfig
