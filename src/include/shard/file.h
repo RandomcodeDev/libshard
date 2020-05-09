@@ -5,6 +5,6 @@
 #include "shard/error.h"
 
 /* Read the contents of a file into a buffer */
-char *read_file(const char *file);
+char *read_file(const char *file, char *buf);
 
 #endif /* __FILE_H__ */

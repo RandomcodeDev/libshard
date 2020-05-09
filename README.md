@@ -1,5 +1,5 @@
 # libshard
-A simple utility library written in C for Linux.
+A simple utility library written in C.
 
 ### How to install
 To compile the library, simply type `make` into a shell and then type `sudo make install`. 

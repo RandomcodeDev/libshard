@@ -1,12 +1,11 @@
 #include "shard/file.h"
 
-char *read_file(const char *file)
+char *read_file(const char *file, char *buf)
 {
 	FILE *fp;
-	char *buf;
 	size_t len;
 
-	fp = fopen(file, "r");
+	fp = fopen(file, "rb");
 	if (fp == NULL) {
 		shard_error("error opening file\n");
 		return NULL;
@@ -16,18 +15,21 @@ char *read_file(const char *file)
 	len = ftell(fp);
 	rewind(fp);
 
-	buf = (char *)malloc(len * sizeof(size_t) - 1);
+	buf = (char *)calloc(len + 1, sizeof(char));
+
 	if (buf == NULL) {
-		shard_error("error allocating buffer\n");
+		shard_error("error allocating memory for file buffer\n");
 		return NULL;
 	}
 
-	if (fread(buf, 1, len, fp) == NULL) {
+	fread(buf, sizeof(char), len, fp);
+	fclose(fp);
+
+	if (buf == NULL) {
 		shard_error("error reading file\n");
 		return NULL;
 	}
 
-	buf[len] = "\0";
-	fclose(fp);
+	buf[len + 1] = 0;
 	return buf;
 }

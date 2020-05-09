@@ -1,4 +1,5 @@
 CC=gcc
+LD=ld
 MAKE=make
 
 SRCDIR=src
@@ -6,8 +7,8 @@ INCDIR=src/include
 HEADERDIR=$(INCDIR)/shard
 OBJDIR=obj
 BINDIR=bin
-GLO_INCDIR=/usr/include
-GLO_LIBDIR=/usr/lib
+
+PREFIX=/usr
 
 _CSRC=error.c file.c
 CSRC=$(patsubst %,$(SRCDIR)/%,$(_CSRC))
@@ -20,24 +21,38 @@ OBJ=$(patsubst %,$(OBJDIR)/%,$(_OBJ))
 
 $(OBJ):
 	gcc -c -Wall -fpic $(CSRC) $(HEADERS) -I$(INCDIR)/
-	mv *.o $(OBJDIR)
+	mv *.o $(OBJDIR)/
 
 $(BINDIR)/libshard.so: $(OBJ)
 	gcc -shared -o $@ $^
 
-.PHONY: clean
 clean:
 	rm $(OBJ) $(HEADERDIR)/*.gch
 
-.PHONY: uninstall
+mingw:
+	gcc -c -DBUILDING_SHARD $(CSRC) $(HEADERS) -I$(INCDIR)/
+	mv *.o $(OBJDIR)/
+	gcc -shared -o libshard.dll $(OBJ)
+
+mingw-test: mingw
+	gcc -o test.exe test.c -I$(INCDIR)/ -L. -lshard
+
+mingw-install: mingw clean
+	cp -r $(HEADERDIR)/ $(PREFIX)/include/
+	cp libshard.dll $(PREFIX)/lib/
+
+mingw-uninstall: 
+	rm -rf $(PREFIX)/include/ $(PREFIX)/lib/
+
+test: $(BINDIR)/libshard.so
+	gcc -o test test.c -I$(INCDIR)/ -Lbin/ -lshard
+
 uninstall:
-	rm $(GLO_LIBDIR)/libshard.so
-	rm -r $(GLO_INCDIR)/shard
+	rm -rf $(PREFIX)/lib/libshard.so $(PREFIX)/include/shard/
 	ldconfig
 
-.PHONY: install
-install: $(BINDIR)/libshard.so
+install: $(BINDIR)/libshard.so clean
 	$(MAKE) clean
-	cp $(BINDIR)/libshard.so $(GLO_LIBDIR)/libshard.so
-	cp -r $(HEADERDIR) $(GLO_INCDIR)/
+	cp $(BINDIR)/libshard.so $(PREFIX)/lib/libshard.so
+	cp -r $(HEADERDIR)/ $(PREFIX)/include/
 	ldconfig
