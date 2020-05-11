@@ -13,7 +13,7 @@ PREFIX=/usr
 _CSRC=error.c file.c
 CSRC=$(patsubst %,$(SRCDIR)/%,$(_CSRC))
 
-_HEADERS=libshard.h error.h file.h stdlib_headers.h
+_HEADERS=libshard.h error.h file.h
 HEADERS=$(patsubst %,$(HEADERDIR)/%,$(_HEADERS))
 
 _OBJ=error.o file.o

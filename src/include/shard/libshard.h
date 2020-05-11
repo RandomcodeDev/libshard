@@ -1,5 +1,5 @@
 /*
- * This header mostly serves as a convinient way
+ * This header mostly serves as a conveinient way
  * to include all the headers provided by the library.
  * It also contains some definitions.
  */
